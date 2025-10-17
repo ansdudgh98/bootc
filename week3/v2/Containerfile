@@ -6,7 +6,10 @@ ARG GIT_HASH=unknown
 
 RUN mkdir -p -m 0700 /var/roothome
 
-RUN echo "${GIT_HASH}" > /etc/hostname
+# hostname 설정 (여러 방법으로 확실하게)
+RUN echo "${GIT_HASH}" > /etc/hostname && \
+    mkdir -p /etc/systemd/system/systemd-hostnamed.service.d && \
+    echo -e "[Service]\nEnvironment=\"SYSTEMD_HOSTNAME=${GIT_HASH}\"" > /etc/systemd/system/systemd-hostnamed.service.d/override.conf
 
 RUN dnf update -y
 
