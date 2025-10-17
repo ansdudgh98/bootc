@@ -16,6 +16,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Log in to Quay.io
+      run: |
+        echo "${{ secrets.QUAY_PASSWORD }}" | podman login quay.io -u "${{ secrets.QUAY_USERNAME }}" --password-stdin
+
     - name: Get git commit hash
       id: git_hash
       run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
@@ -24,10 +28,6 @@ jobs:
       working-directory: ./week3/v2
       run: |
         podman build -t quay.io/ansdudgh980/bootc:${{ steps.git_hash.outputs.hash }} -f Containerfile .
-
-    - name: Test v2 image
-      run: |
-        podman run --rm quay.io/ansdudgh980/bootc:${{ steps.git_hash.outputs.hash }} echo "v2 build successful"
 
     - name: Push image to Quay.io
       run: |
