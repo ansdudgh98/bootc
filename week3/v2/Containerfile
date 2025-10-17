@@ -2,9 +2,11 @@ FROM quay.io/fedora/fedora-bootc:42
 
 LABEL containers.bootc=12
 
+ARG GIT_HASH=unknown
+
 RUN mkdir -p -m 0700 /var/roothome
 
-RUN echo "hoyv2" > /etc/hostname
+RUN echo "hoy${GIT_HASH}" > /etc/hostname
 
 RUN dnf update -y
 

@@ -28,7 +28,7 @@ jobs:
     - name: Build v2 image with Podman
       working-directory: ./week3/v2
       run: |
-        podman build -t quay.io/ansdudgh980/bootc:${{ steps.git_hash.outputs.hash }} -f Containerfile .
+        podman build --build-arg GIT_HASH=${{ steps.git_hash.outputs.hash }} -t quay.io/ansdudgh980/bootc:${{ steps.git_hash.outputs.hash }} -f Containerfile .
 
     - name: Push image to Quay.io
       run: |
