@@ -6,7 +6,7 @@ ARG GIT_HASH=unknown
 
 RUN mkdir -p -m 0700 /var/roothome
 
-RUN echo "hoy${GIT_HASH}" > /etc/hostname
+RUN echo "${GIT_HASH}" > /etc/hostname
 
 RUN dnf update -y
 
