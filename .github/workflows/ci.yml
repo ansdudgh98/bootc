@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build v1 image with Podman
+        working-directory: ./week3/v1
+        run: |
+          podman build -t week3-v1:latest -f Containerfile .
+
+      - name: Build v2 image with Podman
+        working-directory: ./week3/v2
+        run: |
+          podman build -t week3-v2:latest -f Containerfile .
+
+      - name: Test v1 image
+        run: |
+          podman run --rm week3-v1:latest echo "v1 build successful"
+
+      - name: Test v2 image
+        run: |
+          podman run --rm week3-v2:latest echo "v2 build successful"
+
+      - name: List images
+        run: |
+          podman images
